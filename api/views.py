@@ -6,10 +6,11 @@ from rest_framework.generics import get_object_or_404, RetrieveAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from .permissions import IsAdminOrReadOnly
 
 from .Pagination import DefaultPageNumberPagination
-from .serializers import BookSerializer, BookCreateSerializer, AuthorSerializer
-from book.models import Book, Author
+from .serializers import BookSerializer, BookCreateSerializer, AuthorSerializer,BookInstanceSerializer
+from book.models import Book, Author,BookInstance
 from rest_framework import generics
 
 
@@ -93,6 +94,8 @@ def author_detail(request, pk):
     author = get_object_or_404(Author, pk=pk)
     serializer = AuthorSerializer(author)
     return Response(serializer.data)
+
+
 #
 #
 # class CreateAuthorApiView(generics.CreateAPIView):
@@ -119,6 +122,13 @@ class AuthorViewSet(ModelViewSet):
 # #     serializer_class = BookSerializer
 #
 class BookViewSet(ModelViewSet):
-    pagination_class = DefaultPageNumberPagination
+    pagination_class  = DefaultPageNumberPagination
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+
+class BookInstanceViewSet(ModelViewSet):
+    permission_classes = [IsAdminOrReadOnly]
+    pagination_class = DefaultPageNumberPagination
+    queryset = BookInstance.objects.all()
+    serializer_class = BookInstanceSerializer

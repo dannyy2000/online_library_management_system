@@ -5,6 +5,7 @@ from rest_framework.routers import SimpleRouter
 router = SimpleRouter()
 router.register('authors', views.AuthorViewSet)
 router.register('books', views.BookViewSet)
+router.register('book-instance', views.BookInstanceViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

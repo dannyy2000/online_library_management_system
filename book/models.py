@@ -56,7 +56,8 @@ class BookInstance(models.Model):
     due_back = models.DateField()
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='A')
     book = models.ForeignKey(Book, on_delete=models.CASCADE,related_name='books')
-    imprint = models.CharField(max_length=55, null=False)
+    imprint = models.CharField(max_length=55, null=False, blank=False)
+    borrower = models.OneToOneField(LibraryUser,on_delete=models.CASCADE,default='')
 
     def __str__(self):
         return self.imprint
